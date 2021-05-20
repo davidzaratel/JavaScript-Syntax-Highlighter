@@ -1,47 +1,25 @@
 defmodule Integradora do
-  def leerTxt do  #vuelve lista de listas todos los elementos del txt
+  def leerJs do  #vuelve lista de listas todos los elementos del Js
   File.read!("test.js")
   |> String.to_charlist
-  # |> Enum.map(fn line -> String.split(line, ",") end)
   end
 
+  def compare(:num,value), do: "<span class=numint>" <> (value |> to_string) <> "</span>"
+  def compare(:identifier,value), do: "<span class=identifier>" <> (value |> to_string) <> "</span>"
+  def compare(:reserved,value), do: "<span class=reserved>" <> (value |> to_string) <> "</span>"
+  def compare(:enter,_), do: "<br>"
+  def compare(:commentline,value), do: "<span class=commentline>" <> (value |> to_string) <> "</span><br>"
+  def compare(:signs,value), do: "<span class=signs>" <> (value |> to_string) <> "</span>"
+  def compare(:space,value), do: "<span class=space>" <> (value |> to_string) <> "</span>"
 
-  def compare(token) do
-    if token == :int do
-      "int"
-    else
-      if token == :identifier do
-        "identifier"
-      else
-        if token == :reserved do
-          "reserved"
-        else
-          if token == :enter do
-            "enter"
-          else
-            if token == :commentline do
-              "commentline"
-            else
-              if token == :signs do
-                "signs"
-              else
-                if token == :space do
-                  "space"
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-  end
 
   #hacer una funcion a llamar dentro del enum.map, la cual compare cual palabra es
   def convertir do
-    :lexer.string(leerTxt())
+    :lexer.string(leerJs())
     |> elem(1)
-    |> Enum.map(fn {token,_,_} ->
-      compare(token)
+    |> Enum.map(fn {token,_,value} ->
+     compare(token,value)
     end)
+    |>Enum.join()
   end
 end
