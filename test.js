@@ -1,8 +1,5 @@
-// program to convert decimal to binary
-/* Funciones JavaScript
-   Version 0.1
-   Autor: César Krall
-   Curso: Tutorial básico del programador web: JavaScript desde cero
+// Developed by David Zarate Lopez
+/* Javascript test file
 */
 function convertToBinary(x) {
     let bin = 0;
@@ -23,3 +20,21 @@ function convertToBinary(x) {
 let number = prompt('Enter a decimal number: ');
 
 convertToBinary(number);
+
+// program to reverse a string
+
+function reverseString(str) {
+
+    // empty string
+    let newString = "";
+    for (let i = str.length - 1; i >= 0; i--) {
+        newString += str[i];
+    }
+    return newString;
+}
+
+// take input from the user
+const string = prompt('Enter a string: ');
+
+const result = reverseString(string);
+console.log(result);

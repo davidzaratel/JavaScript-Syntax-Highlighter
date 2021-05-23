@@ -1,9 +1,11 @@
 defmodule Integradora do
-  def leerJs do  #vuelve lista de listas todos los elementos del Js
+  #convierte los elementos del archivo Js en charlist
+  def leerJs do
   File.read!("test.js")
   |> String.to_charlist
   end
 
+  #Funcion compare que permite asignar HTML con su respectiva clase CSS a los elementos del archivo Js dependiendo de su token
   def compare(:num,value), do: "<span class=\"num\">" <> (value |> to_string) <> "</span>"
   def compare(:float,value), do: "<span class=\"num\">" <> (value |> to_string) <> "</span>"
   def compare(:identifier,value), do: "<span class=\"identifier\">" <> (value |> to_string) <> "</span>"
@@ -18,6 +20,7 @@ defmodule Integradora do
   def compare(:charlist,value), do: "<span class=\"string\">" <> (value |> to_string) <> "</span>"
   def compare(:bool,value), do: "<span class=\"bool\">" <> (value |> to_string) <> "</span>"
 
+  #Funcion html que realiza interpolacion en un string esqueleto de HTML
   def html(codigo) do
     "<!DOCTYPE html>
     <html>
@@ -34,7 +37,7 @@ defmodule Integradora do
     </html>"
   end
 
-  #hacer una funcion a llamar dentro del enum.map, la cual compare cual palabra es
+  #funcion convertir, la cual es la funcion principal del programa y ejecuta el analisis lexico y escribe el HTML de la funcion compare
   def convertir do
     {:ok, file} = File.open("index.html",[:write])
     code = :lexer.string(leerJs())
