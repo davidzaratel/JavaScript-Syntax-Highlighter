@@ -1,7 +1,7 @@
 defmodule Integradora do
   #convierte los elementos del archivo Js en charlist
-  def leerJs do
-  File.read!("test.js")
+  def leerJs(file) do
+  File.read!(file)
   |> String.to_charlist
   end
 
@@ -37,17 +37,33 @@ defmodule Integradora do
     </html>"
   end
 
-  #funcion convertir, la cual es la funcion principal del programa y ejecuta el analisis lexico y escribe el HTML de la funcion compare
-  def convertir do
-    {:ok, file} = File.open("index.html",[:write])
-    code = :lexer.string(leerJs())
+  def makecode(file) do
+    :lexer.string(file)
     |> elem(1)
     |> Enum.map(fn {token,_,value} ->
      compare(token,value)
     end)
     |>Enum.join()
+  end
+
+  #funcion convertir, la cual es la funcion principal del programa y ejecuta el analisis lexico y escribe el HTML de la funcion compare
+  def convertir do
+    {:ok, file} = File.open("./html/index.html",[:write])
+    code = makecode(leerJs("javascript/test.js"))
     code = html(code)
     IO.write(file,code)
+  end
+
+
+  def prueba(path) do
+    for file <- File.ls!(path) do
+      read = File.read!("#{path}/#{file}") |> String.to_charlist
+      file = String.replace_suffix(file,".js",".html")
+      {:ok, finalfile} = File.open(file,[:write])
+      code = makecode(read)
+      code = html(code)
+      IO.write(finalfile,code)
+    end
   end
 
 end
