@@ -46,24 +46,45 @@ defmodule Integradora do
     |>Enum.join()
   end
 
-  #funcion convertir, la cual es la funcion principal del programa y ejecuta el analisis lexico y escribe el HTML de la funcion compare
-  def convertir do
-    {:ok, file} = File.open("./html/index.html",[:write])
-    code = makecode(leerJs("javascript/test.js"))
-    code = html(code)
-    IO.write(file,code)
+  def makefile(file,read) do
+    # {:ok, finalfile} = File.open(file,[:write])
+      code = makecode(read)
+      code = html(code)
+      # IO.write(finalfile,code)
   end
 
-
-  def prueba(path) do
+  #sincronica
+  def convertir(path) do
     for file <- File.ls!(path) do
       read = File.read!("#{path}/#{file}") |> String.to_charlist
       file = String.replace_suffix(file,".js",".html")
-      {:ok, finalfile} = File.open(file,[:write])
-      code = makecode(read)
-      code = html(code)
-      IO.write(finalfile,code)
+      makefile(file,read)
     end
   end
+
+
+  # #paralela
+  # def convertir(path) do
+  #   for file <- File.ls!(path) do
+  #     read = File.read!("#{path}/#{file}") |> String.to_charlist
+  #     file = String.replace_suffix(file,".js",".html")
+  #     makefile(file,read)
+  #   end
+  # end
+
+  #paralela con Enum
+  # def convertir(path) do
+  #   file = "index.html"
+  #   for file <- File.ls!(path) do
+  #     File.read!("#{path}/#{file}")
+  #     |> String.to_charlist
+  #   end
+  #   |> Enum.map(fn e -> Task.async(fn -> makefile(file,e) end) end)
+  #   |> Enum.map(fn task -> Task.await(task) end)
+  #   # file = String.replace_suffix(file,".js",".html")
+  #   # makefile(file,read)
+  # end
+
+
 
 end

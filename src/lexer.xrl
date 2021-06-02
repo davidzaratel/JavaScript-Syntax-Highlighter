@@ -31,11 +31,12 @@ Rules.
 {String}                                : {token,{string,TokenLine,TokenChars}}.
 {Multiline}                                : {token,{string,TokenLine,TokenChars}}.
 {Charlist}                              : {token,{charlist,TokenLine,TokenChars}}.
-{Numint}\.{Numint}                      : {token, {float, TokenChars}}.
-{Numint}\.{Numint}+e[-]*{Numint}+       : {token, {float, TokenChars}}.
-[\+\-\*\/\;\=\,\.\%\}\{\[\]\#\@\`\~\:\$]  : {token, {signs, TokenLine, TokenChars}}.
+{Numint}\.{Numint}                      : {token, {float, TokenLine,TokenChars}}.
+{Numint}\.{Numint}+e[-]*{Numint}+       : {token, {float, TokenLine,TokenChars}}.
+[\+\-\*\/\;\=\,\.\%\}\{\[\]\#\`\~\:\$\^@\\]  : {token, {signs, TokenLine, TokenChars}}.
 [\|\&\>\<\?\!\>\<]                    :  {token, {logical, TokenLine, TokenChars}}.
 [\(\)]                                  : {token, {signs, TokenLine, TokenChars}}.
+
 
 
 Erlang code.

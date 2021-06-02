@@ -12,7 +12,7 @@
 -export([format_error/1]).
 
 %% User code. This is placed here to allow extra attributes.
--file("src/lexer.xrl", 41).
+-file("src/lexer.xrl", 42).
 
 -file("c:/Program Files/erl10.3/lib/parsetools-2.1.8/include/leexinc.hrl", 14).
 
@@ -784,10 +784,6 @@ yystate(135, [96|Ics], Line, Tlen, Action, Alen) ->
     yystate(130, Ics, Line, Tlen+1, Action, Alen);
 yystate(135, [95|Ics], Line, Tlen, Action, Alen) ->
     yystate(56, Ics, Line, Tlen+1, Action, Alen);
-yystate(135, [93|Ics], Line, Tlen, Action, Alen) ->
-    yystate(72, Ics, Line, Tlen+1, Action, Alen);
-yystate(135, [91|Ics], Line, Tlen, Action, Alen) ->
-    yystate(72, Ics, Line, Tlen+1, Action, Alen);
 yystate(135, [64|Ics], Line, Tlen, Action, Alen) ->
     yystate(72, Ics, Line, Tlen+1, Action, Alen);
 yystate(135, [62|Ics], Line, Tlen, Action, Alen) ->
@@ -840,6 +836,8 @@ yystate(135, [C|Ics], Line, Tlen, Action, Alen) when C >= 49, C =< 57 ->
     yystate(17, Ics, Line, Tlen+1, Action, Alen);
 yystate(135, [C|Ics], Line, Tlen, Action, Alen) when C >= 65, C =< 90 ->
     yystate(56, Ics, Line, Tlen+1, Action, Alen);
+yystate(135, [C|Ics], Line, Tlen, Action, Alen) when C >= 91, C =< 94 ->
+    yystate(72, Ics, Line, Tlen+1, Action, Alen);
 yystate(135, Ics, Line, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,135};
 yystate(134, [42|Ics], Line, Tlen, Action, Alen) ->
@@ -2694,12 +2692,12 @@ yyaction(13, TokenLen, YYtcs, TokenLine) ->
 yyaction(14, TokenLen, YYtcs, TokenLine) ->
     TokenChars = yypre(YYtcs, TokenLen),
     yyaction_14(TokenChars, TokenLine);
-yyaction(15, TokenLen, YYtcs, _) ->
+yyaction(15, TokenLen, YYtcs, TokenLine) ->
     TokenChars = yypre(YYtcs, TokenLen),
-    yyaction_15(TokenChars);
-yyaction(16, TokenLen, YYtcs, _) ->
+    yyaction_15(TokenChars, TokenLine);
+yyaction(16, TokenLen, YYtcs, TokenLine) ->
     TokenChars = yypre(YYtcs, TokenLen),
-    yyaction_16(TokenChars);
+    yyaction_16(TokenChars, TokenLine);
 yyaction(17, TokenLen, YYtcs, TokenLine) ->
     TokenChars = yypre(YYtcs, TokenLen),
     yyaction_17(TokenChars, TokenLine);
@@ -2786,15 +2784,15 @@ yyaction_13(TokenChars, TokenLine) ->
 yyaction_14(TokenChars, TokenLine) ->
      { token, { charlist, TokenLine, TokenChars } } .
 
--compile({inline,yyaction_15/1}).
+-compile({inline,yyaction_15/2}).
 -file("src/lexer.xrl", 32).
-yyaction_15(TokenChars) ->
-     { token, { float, TokenChars } } .
+yyaction_15(TokenChars, TokenLine) ->
+     { token, { float, TokenLine, TokenChars } } .
 
--compile({inline,yyaction_16/1}).
+-compile({inline,yyaction_16/2}).
 -file("src/lexer.xrl", 33).
-yyaction_16(TokenChars) ->
-     { token, { float, TokenChars } } .
+yyaction_16(TokenChars, TokenLine) ->
+     { token, { float, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_17/2}).
 -file("src/lexer.xrl", 34).
