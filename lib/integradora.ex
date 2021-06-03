@@ -25,7 +25,7 @@ defmodule Integradora do
     "<!DOCTYPE html>
     <html>
     <head>
-      <title> Javascript Script Highlighterr</title>
+      <title> Javascript Script Highlighter</title>
       <link rel='stylesheet' href='styles.css'>
     </head>
     <body>
@@ -37,6 +37,7 @@ defmodule Integradora do
     </html>"
   end
 
+  #funcion makecode, la cual identifica los tokens de cada palabra de los archivos para mandarlos a la funcion compare
   def makecode(file) do
     :lexer.string(file)
     |> elem(1)
@@ -46,45 +47,34 @@ defmodule Integradora do
     |>Enum.join()
   end
 
+  #funcion make file, la cual crea los archivos .html y escribe en ellos el html generado por la funcion makecode
   def makefile(file,read) do
-    # {:ok, finalfile} = File.open(file,[:write])
+    {:ok, finalfile} = File.open(file,[:write])
       code = makecode(read)
       code = html(code)
-      # IO.write(finalfile,code)
+      IO.write(finalfile,code)
   end
 
-  #sincronica
-  def convertir(path) do
+  #funcion que lee todos los archivos .js y los manda como charlist a la funcion makefile
+  #esta funcion funciona de manera sincronica
+  def convertirseq(path) do
     for file <- File.ls!(path) do
       read = File.read!("#{path}/#{file}") |> String.to_charlist
       file = String.replace_suffix(file,".js",".html")
-      makefile(file,read)
+      makefile("html/#{file}",read)
     end
   end
 
-
-  # #paralela
-  # def convertir(path) do
-  #   for file <- File.ls!(path) do
-  #     read = File.read!("#{path}/#{file}") |> String.to_charlist
-  #     file = String.replace_suffix(file,".js",".html")
-  #     makefile(file,read)
-  #   end
-  # end
-
-  #paralela con Enum
-  # def convertir(path) do
-  #   file = "index.html"
-  #   for file <- File.ls!(path) do
-  #     File.read!("#{path}/#{file}")
-  #     |> String.to_charlist
-  #   end
-  #   |> Enum.map(fn e -> Task.async(fn -> makefile(file,e) end) end)
-  #   |> Enum.map(fn task -> Task.await(task) end)
-  #   # file = String.replace_suffix(file,".js",".html")
-  #   # makefile(file,read)
-  # end
-
+  #funcion que lee todos los archivos .js y los manda como charlist a la funcion makefile
+  #esta funcion funciona de manera paralela
+  def convertirpar(path) do
+    for file <- File.ls!(path) do
+      read = File.read!("#{path}/#{file}") |> String.to_charlist
+      file = String.replace_suffix(file,".js",".html")
+      Task.async(fn -> makefile("html/#{file}",read) end)
+    end
+      |> Enum.map(fn task -> Task.await(task) end)
+  end
 
 
 end

@@ -1,5 +1,3 @@
-// program to clone the object
-
 // declaring object
 const person = {
     name: 'John',
@@ -17,40 +15,23 @@ clonePerson.name = 'Peter';
 console.log(clonePerson.name);
 console.log(person.name);
 
+// program to pass a function as a parameter
 
-// program to clone the object
-// declaring object
-const person = {
-    name: 'John',
-    age: 21,
+function greet() {
+    return 'Hello';
 }
 
-// cloning the object
-const clonePerson = { ... person}
+// passing function greet() as a parameter
+function name(user, func)
+{
 
-console.log(clonePerson);
+    // accessing passed function
+    const message = func();
 
-// changing the value of clonePerson
-clonePerson.name = 'Peter';
-
-console.log(clonePerson.name);
-console.log(person.name);
-
-const person = {
-    name: 'John',
-    age: 21,
-
-    // the inner objects will change in the shallow copy
-    marks: { math: 66, english: 73}
+    console.log(`${message} ${user}`);
 }
 
-// cloning the object
-const clonePerson = { ... person}
+name('John', greet);
+name('Jack', greet);
+name('Sara', greet);
 
-console.log(clonePerson); // {name: "John", age: 21, marks: {…}}
-
-// changing the value of clonePerson
-clonePerson.marks.math = 100;
-
-console.log(clonePerson.marks.math); // 100
-console.log(person.marks.math); // 100
