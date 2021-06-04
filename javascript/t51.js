@@ -3,11 +3,11 @@
 				
 					return this.each( function(){
 					
-						/* variables */
+
 						
 						var s, slider, api;
 					
-						/* fill them */
+
 						
 						slider		= $(this).css('position','relative');
 						api			= new Object();
@@ -17,31 +17,24 @@
 						
 						typeof s.start == 'object' ? 1 : s.start=[s.start];
 						
-						/* Available elements */
-						
+			
 						api.slider	= slider;
 						api.low		= $('<div class="noUi-handle noUi-lowerHandle"><div></div></div>');
 						api.up		= $('<div class="noUi-handle noUi-upperHandle"><div></div></div>');
 						api.connect	= $('<div class="noUi-midBar"></div>');
 						
-						/* Append the middle bar */
+
 						
 						s.connect ? api.connect.appendTo(api.slider) : api.connect = false;
-						
-						/* Append the handles */
-						
-						// legacy rename
+
 						if(s.knobs){
 							s.handles=s.knobs;
 						}
 						
 						if ( s.handles === 1 ){
 						
-							/*
-								This always looks weird:
-								Connect=lower, means activate upper, because the bar connects to 0.
-							*/
-						
+
+
 							if ( s.connect === true || s.connect === 'lower' ){
 							
 								api.low		= false;
@@ -84,7 +77,7 @@
 						
 						helpers.connect(api);
 
-						/* expose */
+
 						api.options=s;
 						api.slider.data('api',api);
 					

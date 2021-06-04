@@ -73,7 +73,7 @@ defmodule Integradora do
       file = String.replace_suffix(file,".js",".html")
       Task.async(fn -> makefile("html/#{file}",read) end)
     end
-      |> Enum.map(fn task -> Task.await(task) end)
+      # |> Enum.map(fn task -> Task.await(task) end)
   end
 
 
