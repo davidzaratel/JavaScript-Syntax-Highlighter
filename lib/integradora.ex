@@ -26,7 +26,7 @@ defmodule Integradora do
     <html>
     <head>
       <title> Javascript Script Highlighter</title>
-      <link rel='stylesheet' href='styles.css'>
+      <link rel='stylesheet' href='../css/styles.css'>
     </head>
     <body>
     <h1>Javascript script highlighter</h1>
@@ -58,22 +58,31 @@ defmodule Integradora do
   #funcion que lee todos los archivos .js y los manda como charlist a la funcion makefile
   #esta funcion funciona de manera sincronica
   def convertirseq(path) do
-    for file <- File.ls!(path) do
-      read = File.read!("#{path}/#{file}") |> String.to_charlist
-      file = String.replace_suffix(file,".js",".html")
-      makefile("html/#{file}",read)
+    for file <- Path.wildcard("./#{path}/*")  do
+      if String.ends_with?(file, ".js") do
+        read = File.read!(file) |> String.to_charlist
+        file = String.replace_suffix(file,".js",".html")
+        file = String.replace_prefix(file, "#{path}/", "")
+        makefile("html/#{file}",read)
+      else
+        convertirseq(file)
+      end
     end
   end
 
   #funcion que lee todos los archivos .js y los manda como charlist a la funcion makefile
   #esta funcion funciona de manera paralela
   def convertirpar(path) do
-    for file <- File.ls!(path) do
-      read = File.read!("#{path}/#{file}") |> String.to_charlist
-      file = String.replace_suffix(file,".js",".html")
-      Task.async(fn -> makefile("html/#{file}",read) end)
+    for file <- Path.wildcard("./#{path}/*")  do
+      if String.ends_with?(file, ".js") do
+        read = File.read!(file) |> String.to_charlist
+        file = String.replace_suffix(file,".js",".html")
+        file = String.replace_prefix(file, "#{path}/", "")
+        Task.async(fn -> makefile("html/#{file}",read) end)
+      else
+        convertirseq(file)
+      end
     end
-      # |> Enum.map(fn task -> Task.await(task) end)
   end
 
 
