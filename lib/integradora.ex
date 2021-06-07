@@ -56,7 +56,8 @@ defmodule Integradora do
   end
 
   #funcion que lee todos los archivos .js y los manda como charlist a la funcion makefile
-  #esta funcion funciona de manera sincronica
+  #esta funcion se realiza de manera sincronica
+  #Para ejecutarse: Integradora.convertirseq("javascript"), se utiliza javascript como parametro ya que es la carpeta donde se encuentran los .js
   def convertirseq(path) do
     for file <- Path.wildcard("./#{path}/*")  do
       if String.ends_with?(file, ".js") do
@@ -71,7 +72,8 @@ defmodule Integradora do
   end
 
   #funcion que lee todos los archivos .js y los manda como charlist a la funcion makefile
-  #esta funcion funciona de manera paralela
+  #esta funcion se realiza de manera paralela
+  #Para ejecutarse: Integradora.convertirseq("javascript"), se utiliza javascript como parametro ya que es la carpeta donde se encuentran los .js
   def convertirpar(path) do
     for file <- Path.wildcard("./#{path}/*")  do
       if String.ends_with?(file, ".js") do
