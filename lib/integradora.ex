@@ -25,11 +25,11 @@ defmodule Integradora do
     "<!DOCTYPE html>
     <html>
     <head>
-      <title> Javascript Script Highlighter</title>
+      <title> Javascript Syntax Highlighter</title>
       <link rel='stylesheet' href='../css/styles.css'>
     </head>
     <body>
-    <h1>Javascript script highlighter</h1>
+    <h1>Javascript Syntax Highlighter</h1>
     <h3> By: David Zarate Lopez A01329795</h3>
     <br>
     <pre><code>#{codigo}</code></pre>
